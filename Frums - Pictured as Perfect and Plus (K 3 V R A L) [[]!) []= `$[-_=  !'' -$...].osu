@@ -3,7 +3,7 @@ osu file format v14
 [General]
 AudioFilename: audio.mp3
 AudioLeadIn: 0
-PreviewTime: -1
+PreviewTime: 354655
 Countdown: 0
 SampleSet: Soft
 StackLeniency: 0.7
@@ -32,8 +32,8 @@ BeatmapSetID:-1
 [Difficulty]
 HPDrainRate:0
 CircleSize:7
-OverallDifficulty:9.2
-ApproachRate:9.2
+OverallDifficulty:5
+ApproachRate:10
 SliderMultiplier:3.6
 SliderTickRate:0.5
 
@@ -48,7 +48,7 @@ SliderTickRate:0.5
 //Storyboard Sound Samples
 
 [TimingPoints]
-4761,315.789473684211,4,2,0,100,1,0
+971,315.789473684211,4,2,0,100,1,0
 
 
 [HitObjects]
