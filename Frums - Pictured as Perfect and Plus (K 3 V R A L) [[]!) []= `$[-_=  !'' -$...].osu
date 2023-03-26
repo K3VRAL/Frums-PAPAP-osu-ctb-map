@@ -7,7 +7,7 @@ PreviewTime: -1
 Countdown: 0
 SampleSet: Soft
 StackLeniency: 0.7
-Mode: 0
+Mode: 2
 LetterboxInBreaks: 0
 WidescreenStoryboard: 0
 
@@ -22,20 +22,20 @@ Title:Pictured as Perfect and Plus
 TitleUnicode:Pictured as Perfect and Plus
 Artist:Frums
 ArtistUnicode:Frums
-Creator:
-Version:
+Creator:K 3 V R A L
+Version:|/[]!|) []|= /\/\`/$[-|_|= / !'|' \|//-\$...
 Source:
 Tags:
 BeatmapID:0
 BeatmapSetID:-1
 
 [Difficulty]
-HPDrainRate:5
-CircleSize:5
-OverallDifficulty:5
-ApproachRate:5
-SliderMultiplier:1.4
-SliderTickRate:1
+HPDrainRate:0
+CircleSize:7
+OverallDifficulty:9.2
+ApproachRate:9.2
+SliderMultiplier:3.6
+SliderTickRate:0.5
 
 [Events]
 //Background and Video events
