@@ -12,10 +12,10 @@ LetterboxInBreaks: 0
 WidescreenStoryboard: 0
 
 [Editor]
-Bookmarks: 141392,151286
+Bookmarks: 141392,143707,146865,147497,151286
 DistanceSpacing: 1.5
-BeatDivisor: 3
-GridSize: 4
+BeatDivisor: 12
+GridSize: 16
 TimelineZoom: 1
 
 [Metadata]
