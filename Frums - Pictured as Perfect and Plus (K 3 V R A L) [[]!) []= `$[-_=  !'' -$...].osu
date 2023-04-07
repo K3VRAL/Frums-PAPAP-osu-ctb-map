@@ -12,11 +12,11 @@ LetterboxInBreaks: 0
 WidescreenStoryboard: 0
 
 [Editor]
-Bookmarks: 243497,292128
+Bookmarks: 243497,249813,251076,252339,256760,257392,261813,262444,266865,267497,271918,272549,276971,277602,282023,282655,287076,287707,292128,300339,302865
 DistanceSpacing: 1.5
-BeatDivisor: 12
+BeatDivisor: 1
 GridSize: 16
-TimelineZoom: 0.6999991
+TimelineZoom: 0.3999996
 
 [Metadata]
 Title:Pictured as Perfect and Plus
