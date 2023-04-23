@@ -14,9 +14,9 @@ WidescreenStoryboard: 0
 [Editor]
 Bookmarks: 100128,141392
 DistanceSpacing: 1.5
-BeatDivisor: 3
-GridSize: 4
-TimelineZoom: 1
+BeatDivisor: 12
+GridSize: 32
+TimelineZoom: 2
 
 [Metadata]
 Title:Pictured as Perfect and Plus
@@ -53,3 +53,11 @@ SliderTickRate:0.5
 
 
 [HitObjects]
+512,192,101392,5,0,0:0:0:0:
+256,192,101411,1,0,0:0:0:0:
+256,192,101497,1,0,0:0:0:0:
+0,192,101516,1,0,0:0:0:0:
+0,128,101602,1,0,0:0:0:0:
+256,128,101621,1,0,0:0:0:0:
+256,128,101707,1,0,0:0:0:0:
+512,128,101726,1,0,0:0:0:0:
