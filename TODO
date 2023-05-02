@@ -1,1 +1,1 @@
-	 spacing=100; time=8211; points=(251076 251392 251707 251813 252023 252076 252128 252181); curr="0"; for i in $(seq 0 $spacing); do echo "$i : $curr"; curr=$(echo "$curr + ($time / $spacing)" | bc -l); done
+	 spacing=100; time=8211; points=(251076 251392 251707 251813 252023 252076 252128 252181); curr="0"; for i in $(seq 1 $spacing); do echo -n "$i : $(printf "%.2f" $(echo $curr + 292128 | bc))"; for j in $(seq 1 $(echo "$spacing / $i" | bc)); do echo -n " $j"; done; echo ""; curr=$(echo "$curr + ($time / $spacing)" | bc -l); done
