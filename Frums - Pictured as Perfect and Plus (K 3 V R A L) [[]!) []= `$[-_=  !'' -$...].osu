@@ -32,8 +32,8 @@ BeatmapSetID:-1
 
 [Difficulty]
 HPDrainRate:0
-CircleSize:7
-OverallDifficulty:5
+CircleSize:3
+OverallDifficulty:7
 ApproachRate:10
 SliderMultiplier:3.6
 SliderTickRate:0.5
