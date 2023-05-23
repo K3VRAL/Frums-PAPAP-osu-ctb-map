@@ -1,4 +1,5 @@
-map="Frums - Pictured as Perfect and Plus (K 3 V R A L) [[]!) []= \`$[-_=  !'' -$...].osu"
+#!/bin/bash
+map="Frums - Pictured as Perfect and Plus (K 3 V R A L) [[]!) []= \`\$[-_=  !'' -$...].osu"
 lc=0;
 seq_end=47;
 t_length="26.31";

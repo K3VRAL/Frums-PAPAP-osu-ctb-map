@@ -1,3 +1,5 @@
+#!/bin/bash
+map="Frums - Pictured as Perfect and Plus (K 3 V R A L) [[]!) []= \`\$[-_=  !'' -$...].osu"
 spacing=100;
 time=8211;
 start_time=292128;
@@ -9,9 +11,9 @@ for i in $(seq 1 $spacing); do
 	cs_time=$(printf "%.0f" $(echo "$curr_time + $spacing" | bc));
 	echo "$i :";
 
-	bnprdctr -b Frums\ -\ Pictured\ as\ Perfect\ and\ Plus\ \(K\ 3\ V\ R\ A\ L\)\ \[\[\]\!\)\ \[\]\=\ \`\$\[-_\=\ \ \!\'\'\ -\$...\].osu -o /tmp/file.osu -s "0:$curr_time|512:$curr_time|512:$cs_time|0:$cs_time" -c "256:192" -d "$i" \
+	bnprdctr -b "$map" -o /tmp/file.osu -s "0:$curr_time|512:$curr_time|512:$cs_time|0:$cs_time" -c "256:192" -d "$i" \
 	&& cat /tmp/file.osu \
-	>> Frums\ -\ Pictured\ as\ Perfect\ and\ Plus\ \(K\ 3\ V\ R\ A\ L\)\ \[\[\]\!\)\ \[\]\=\ \`\$\[-_\=\ \ \!\'\'\ -\$...\].osu;
+	>> "$map";
 
 	curr=$(echo "$curr + ($time / $spacing)" | bc -l);
 done

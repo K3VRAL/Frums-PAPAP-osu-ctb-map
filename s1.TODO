@@ -1,3 +1,5 @@
+#!/bin/bash
+map="Frums - Pictured as Perfect and Plus (K 3 V R A L) [[]!) []= \`\$[-_=  !'' -$...].osu"
 lc=0;
 w_spin_t=(251076 251392 251707 251813 252023 252076 252128 252181);
 bs=(192 160 128 96 64 32 16 0 0 16 32 48 64 96 128 160 192 224 240 256 256 240 224);
@@ -19,14 +21,14 @@ for i in $(seq 0 $seq_end); do
 		y=$(echo "$x - $time_s" | bc)
 		w_spin="$w_spin -w $y:1";
 	done;
-	lc_new=$(cat Frums\ -\ Pictured\ as\ Perfect\ and\ Plus\ \(K\ 3\ V\ R\ A\ L\)\ \[\[\]\!\)\ \[\]\=\ \`\$\[-_\=\ \ \!\'\'\ -\$...\].osu | wc -l);
+	lc_new=$(cat "$map" | wc -l);
 
 	echo "$i | $time_s | $time_e | $w_spin";
 
-	bnprdctr -b Frums\ -\ Pictured\ as\ Perfect\ and\ Plus\ \(K\ 3\ V\ R\ A\ L\)\ \[\[\]\!\)\ \[\]\=\ \`\$\[-_\=\ \ \!\'\'\ -\$...\].osu -o /tmp/file.osu -s "$x1_right:$time_s|$x1_left:$time_s|$x2_left:$time_e|$x2_right:$time_e" $w_spin -d "$dist" -u "$lc" \
+	bnprdctr -b "$map" -o /tmp/file.osu -s "$x1_right:$time_s|$x1_left:$time_s|$x2_left:$time_e|$x2_right:$time_e" $w_spin -d "$dist" -u "$lc" \
 	&& cat /tmp/file.osu \
-	>> Frums\ -\ Pictured\ as\ Perfect\ and\ Plus\ \(K\ 3\ V\ R\ A\ L\)\ \[\[\]\!\)\ \[\]\=\ \`\$\[-_\=\ \ \!\'\'\ -\$...\].osu;
+	>> "$map";
 
-	lc_after=$(cat Frums\ -\ Pictured\ as\ Perfect\ and\ Plus\ \(K\ 3\ V\ R\ A\ L\)\ \[\[\]\!\)\ \[\]\=\ \`\$\[-_\=\ \ \!\'\'\ -\$...\].osu | wc -l);
+	lc_after=$(cat "$map" | wc -l);
 	lc=$(echo "$lc_after - $lc_new + $lc" | bc);
 done
