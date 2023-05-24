@@ -1,4 +1,6 @@
 #!/bin/bash
+source "./functions.sh"
+
 map="Frums - Pictured as Perfect and Plus (K 3 V R A L) [[]!) []= \`\$[-_=  !'' -$...].osu"
 lc=0;
 seq_end=47;
@@ -8,26 +10,25 @@ start_time=249813;
 sp_time=243497;
 
 for i in $(seq 0 $seq_end); do
-	x_left=$(echo "0 + ($dist * $i)" | bc);
-	x2_left=$(echo "($dist * ($i + 1))" | bc);
-	x_right=$(echo "512 - ($dist * $i)" | bc);
-	x2_right=$(echo "512 - ($dist * ($i + 1))" | bc);
-	time_s=$(printf "%.0f" $(echo "($t_length * $i) + $start_time" | bc));
-	time_e=$(printf "%.0f" $(echo "$time_s + $t_length" | bc));
-	time_o=$(printf "%.0f" $(echo "(105 * $i) + ($sp_time - $start_time)" | bc));
-	lc_new=$(cat "$map" | wc -l);
+	x_left=$(fbc "0 + ($dist * $i)");
+	x2_left=$(fbc "($dist * ($i + 1))");
+	x_right=$(fbc "512 - ($dist * $i)");
+	x2_right=$(fbc "512 - ($dist * ($i + 1))");
+	time_s=$(fpf $(fbc "($t_length * $i) + $start_time"));
+	time_e=$(fpf $(fbc "$time_s + $t_length"));
+	time_o=$(fpf $(fbc "(105 * $i) + ($sp_time - $start_time)"));
+	lc_new=$(fwc "$map");
 	spin_w="";
-	for x in $(seq 0 105); do
-		y=$(echo "$x * 2 + $time_o" | bc)
-		spin_w="$spin_w -w $y:100";
+	sp_amount=105;
+	for x in $(seq 0 $sp_amount); do
+		spin_w="$spin_w -w $(fbc "$x * 2 + $time_o"):100";
 	done;
 
 	echo "$i | $lc : $time_s , $time_e : $x_left , $x_right , $x2_right , $x2_left - $time_o";
 
 	bnprdctr -b "$map" -o /tmp/file.osu -s "$x_left:$time_s|$x_right:$time_s|$x2_right:$time_e|$x2_left:$time_e" $spin_w -d "$dist" -u "$lc" \
-	&& cat /tmp/file.osu \
-	>> "$map";
+	&& cat /tmp/file.osu >> "$map";
 
-	lc_after=$(cat "$map" | wc -l);
-	lc=$(echo "$lc_after - $lc_new + $lc" | bc);
+	lc_after=$(fwc "$map");
+	lc=$(fbc "$lc_after - $lc_new + $lc");
 done
