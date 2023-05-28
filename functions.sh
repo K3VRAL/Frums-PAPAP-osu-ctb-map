@@ -11,3 +11,7 @@ fpf () {
 fwc () {
 	cat "$1" | wc -l
 }
+
+fabs () {
+	echo "$1" | sed "s/-//"
+}
