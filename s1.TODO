@@ -13,10 +13,18 @@ for j in $(seq 0 0); do # TODO 0 0 -> 0 2
 		bs_len=${#bs[@]};
 		start_time=252339;
 		direction=512;
+		seq_itr=2;
 		seq_end=120;
+	else # TODO elif [ "$j" -eq "1" ]
+		# TODO maybe remove direction
+		bs=(184 104 24);
+		bs_len=${#bs[@]};
+		start_time=255497;
+		seq_itr=1;
+		seq_end=23;
 	fi
 
-	for i in $(seq 0 2 $seq_end); do
+	for i in $(seq 0 $seq_itr $seq_end); do
 		temp_mod=$(fbc "$i % $bs_len");
 		if [ "$temp_mod" -eq "0" ]; then
 			direction=$(fbc "-1 * $direction");
