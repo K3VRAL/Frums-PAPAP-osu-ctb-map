@@ -44,6 +44,7 @@ done
 
 # Part 2
 bs=(184 104 24);
+bs_empty=(256 184);
 bs_len=${#bs[@]};
 start_time=255497;
 direction=512;
