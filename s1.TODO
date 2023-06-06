@@ -1,7 +1,7 @@
 #!/bin/bash
 source "./functions.sh"
 
-map="Frums - Pictured as Perfect and Plus (K 3 V R A L) [[]!) []= \`\$[-_=  !'' -$...].osu"
+map="Frums - Pictured as Perfect and Plus (K 3 V R A L) [[]!) []= \`\$[-_=  !'' -$...].osu";
 lc=0;
 w_spin_t=(251076 251392 251707 251813 252023 252076 252128 252181);
 dist=4;
