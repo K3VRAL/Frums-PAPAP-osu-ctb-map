@@ -8,19 +8,10 @@ dist=4;
 t_length="26.31";
 
 for j in $(seq 0 1); do
-	if [ "$j" -eq "0" ]; then
-		# Part 1
-		start_time=262444;
-		direction=-64;
-		floor=0;
-		repeat=12;
-	else
-		# Part 2
-		start_time=264971;
-		direction=-128;
-		floor=64;
-		repeat=6;
-	fi
+	start_time=$(fbc "262444 + (2527 * $j)");
+	direction=$(fbc "-64 * (1 + $j)");
+	floor=$(fbc "64 * $j");
+	repeat=$(fbc "12 / (1 + $j)");
 	bs_i=192;
 	ceiling=$(fbc "512 - (128 + $floor)");
 	density=8;

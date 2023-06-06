@@ -3,14 +3,14 @@ source "./functions.sh"
 
 map="Frums - Pictured as Perfect and Plus (K 3 V R A L) [[]!) []= \`\$[-_=  !'' -$...].osu";
 lc=0;
-w_spin_t=(); # TODO
+w_spin_t=(267023 267128 267181 267234 267286 267339 267392 267444);
 dist=4;
 t_length="26.31";
 
-# Part 1
+# Part 1 TODO
 bs=();
 bs_len=${#bs[@]};
-start_time=;
+start_time=267497;
 seq_itr=1;
 seq_end=0;
 for i in $(seq 0 $seq_itr $seq_end); do
