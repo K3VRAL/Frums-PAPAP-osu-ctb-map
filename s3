@@ -15,9 +15,9 @@ for j in $(seq 0 $seq_end); do
 	start_time=$(fbc "262444 + (2527 * $j)");
 	direction=$(fbc "-64 * (1 + $j)");
 	floor=$(fbc "64 * $j");
+	ceiling=$(fbc "512 - (128 + $floor)");
 	repeat=$(fbc "12 / (1 + $j)");
 	bs_i=192;
-	ceiling=$(fbc "512 - (128 + $floor)");
 	density=8;
 
 	seq_end=$(fbc "($density * $repeat) - 1")
@@ -39,7 +39,7 @@ for j in $(seq 0 $seq_end); do
 		time_s=$(fpf $(fbc "($t_length * $i) + $start_time"));
 		time_e=$(fpf $(fbc "$time_s + $t_length"));
 		w_spin="";
-		for x in $w_spin_len; do
+		for x in ${w_spin_t[@]}; do
 			w_spin="$w_spin -w $(fbc "${w_spin_t[$(fbc "$w_spin_i % ($w_spin_len - 1)")]} - $time_s"):1";
 			w_spin_i=$(fbc "$w_spin_i + 1");
 		done
@@ -68,7 +68,7 @@ for i in $(seq 0 $seq_end); do
 	time_s=$(fpf $(fbc "($t_length * $i) + $start_time"));
 	time_e=$(fpf $(fbc "$time_s + $t_length"));
 	w_spin="";
-	for x in $w_spin_len; do
+	for x in ${w_spin_t[@]}; do
 		w_spin="$w_spin -w $(fbc "${w_spin_t[$(fbc "$w_spin_i % ($w_spin_len - 1)")]} - $time_s"):1";
 		w_spin_i=$(fbc "$w_spin_i + 1");
 	done
@@ -111,7 +111,7 @@ for i in $(seq 0 $seq_end); do
 	time_e=$(fpf $(fbc "$time_s + $t_length"));
 	x_total="-s $x1_left:$time_s|$x1_lmid:$time_s|$x2_lmid:$time_e|$x2_left:$time_e -s $x1_right:$time_s|$x1_rmid:$time_s|$x2_rmid:$time_e|$x2_right:$time_e";
 	w_spin="";
-	for x in $w_spin_len; do
+	for x in ${w_spin_t[@]}; do
 		w_spin="$w_spin -w $(fbc "${w_spin_t[$(fbc "$w_spin_i % ($w_spin_len - 1)")]} - $time_s"):1";
 		w_spin_i=$(fbc "$w_spin_i + 1");
 	done
