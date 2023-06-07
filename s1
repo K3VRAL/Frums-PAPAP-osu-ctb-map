@@ -3,7 +3,9 @@ source "./functions.sh"
 
 map="Frums - Pictured as Perfect and Plus (K 3 V R A L) [[]!) []= \`\$[-_=  !'' -$...].osu";
 lc=0;
-w_spin_t=(251076 251392 251707 251813 252023 252076 252128 252181);
+w_spin_t=(251076 251392 251707 251813 252023 252076 252128 252181 100000 110000 120000 130000 140000 150000 160000 170000 180000 190000 200000);
+w_spin_len=${#w_spin_t[@]};
+w_spin_i=0;
 dist=4;
 t_length="26.31";
 
@@ -13,7 +15,7 @@ bs_len=${#bs[@]};
 start_time=252339;
 direction=512;
 seq_itr=2;
-seq_end=-1; # TODO 238;
+seq_end=238;
 for i in $(seq 0 $seq_itr $seq_end); do
 	temp_mod=$(fbc "$i % $bs_len");
 	if [ "$temp_mod" -eq "0" ]; then
@@ -29,8 +31,9 @@ for i in $(seq 0 $seq_itr $seq_end); do
 	time_e=$(fpf $(fbc "$time_s + $t_length"));
 	w_spin="";
 	for x in ${w_spin_t[@]}; do
-		w_spin="$w_spin -w $(fbc "$x - $time_s"):1";
-	done;
+		w_spin="$w_spin -w $(fbc "${w_spin_t[$(fbc "$w_spin_i % ($w_spin_len - 1)")]} - $time_s"):1";
+		w_spin_i=$(fbc "$w_spin_i + 1");
+	done
 	lc_new=$(fwc "$map");
 
 	echo "$j | $i | $time_s | $time_e | $w_spin";
@@ -42,17 +45,14 @@ for i in $(seq 0 $seq_itr $seq_end); do
 	lc=$(fbc "$lc_after - $lc_new + $lc");
 done
 
-# TODO Part 2
+# Part 2
 bs=(184 104 24 104);
-bs_s=3;
-bs_e=7;
 bs_i=0;
 bs_len=${#bs[@]};
-seq_itr=1;
-seq_end=11;
-for j in $(seq 0 1 1); do
+for j in $(seq 0 1); do
 	start_time=$(fbc "255497 + ($j * 316)");
-	for i in $(seq 0 $seq_itr $seq_end); do
+	seq_end=11;
+	for i in $(seq 0 $seq_end); do
 		temp_bs=$(fbc "$i % ($bs_len - 1)");
 		if [ "$temp_bs" -eq "0" ]; then
 			old=${bs[$(fbc "$bs_i % $bs_len")]};
@@ -60,12 +60,11 @@ for j in $(seq 0 1 1); do
 			bs_i=$(fbc "$bs_i + 1");
 		fi
 
-		x_total="";
-		if [ "$i" -ge "$bs_s" ] && [ "$i" -le "$bs_e" ]; then
-			if [ "$i" -eq "$bs_s" ]; then
+		if [ "$i" -ge "3" ] && [ "$i" -le "7" ]; then
+			if [ "$i" -eq "3" ]; then
 				old_empty=256;
 				curr_empty=184;
-			elif [ "$i" -eq "$bs_e" ]; then
+			elif [ "$i" -eq "7" ]; then
 				old_empty=184;
 				curr_empty=256;
 			else
@@ -83,22 +82,21 @@ for j in $(seq 0 1 1); do
 			x2_right=$(fbc "512 - $x2_left")
 			x2_rmid=$(fbc "512 - $x2_lmid");
 
-			# TODO make lmid rmid one point if the same.
-
-			x_total="-s \"$x1_left:$time_s|$x1_lmid:$time_s|$x2_lmid:$time_e|$x2_left:$time_e\" -s \"$x1_right:$time_s|$x1_rmid:$time_s|$x2_rmid:$time_e|$x2_right:$time_e\"";
+			x_total="-s $x1_left:$time_s|$x1_lmid:$time_s|$x2_lmid:$time_e|$x2_left:$time_e -s $x1_right:$time_s|$x1_rmid:$time_s|$x2_rmid:$time_e|$x2_right:$time_e";
 		else
 			x1_left=$old;
 			x1_right=$(fbc "512 - $x1_left")
 			x2_left=$curr;
 			x2_right=$(fbc "512 - $x2_left")
-			x_total="-s \"$x1_left:$time_s|$x1_right:$time_s|$x2_right:$time_e|$x2_left:$time_e\"";
+			x_total="-s $x1_left:$time_s|$x1_right:$time_s|$x2_right:$time_e|$x2_left:$time_e";
 		fi
 		time_s=$(fpf $(fbc "($t_length * $i) + $start_time"));
 		time_e=$(fpf $(fbc "$time_s + $t_length"));
 		w_spin="";
 		for x in ${w_spin_t[@]}; do
-			w_spin="$w_spin -w $(fbc "$x - $time_s"):1";
-		done;
+			w_spin="$w_spin -w $(fbc "${w_spin_t[$(fbc "$w_spin_i % ($w_spin_len - 1)")]} - $time_s"):1";
+			w_spin_i=$(fbc "$w_spin_i + 1");
+		done
 		lc_new=$(fwc "$map");
 
 		echo "$j | $i | $x1_left | $x2_left | $time_s | $time_e | $w_spin";
@@ -110,4 +108,36 @@ for j in $(seq 0 1 1); do
 		lc=$(fbc "$lc_after - $lc_new + $lc");
 		old=$curr;
 	done
+done
+
+# Part 3
+start_time=256128;
+seq_end=24;
+direction=-32;
+bs_i=192;
+for i in $(seq 0 $seq_end); do
+	x_left=$(fbc "$bs_i");
+	x_right=$(fbc "$x_left + 128");
+	time_s=$(fpf $(fbc "($t_length * $i) + $start_time"));
+	time_e=$(fpf $(fbc "$time_s + $t_length"));
+	w_spin="";
+	for x in ${w_spin_t[@]}; do
+		w_spin="$w_spin -w $(fbc "${w_spin_t[$(fbc "$w_spin_i % ($w_spin_len - 1)")]} - $time_s"):1";
+		w_spin_i=$(fbc "$w_spin_i + 1");
+	done
+	lc_new=$(fwc "$map");
+
+	echo "$i | $bs_i | $direction | $time_s , $time_e | $x_left , $x_right";
+
+	bnprdctr -b "$map" -o /tmp/file.osu -s "$x_right:$time_s|$x_left:$time_s|$x_left:$time_e|$x_right:$time_e" $w_spin -d "$dist" -u "$lc" \
+	&& cat /tmp/file.osu >> "$map";
+
+	lc_after=$(fwc "$map");
+	lc=$(fbc "$lc_after - $lc_new + $lc");
+
+	temp_dir=$(fbc "$bs_i + $direction");
+	if [ "$temp_dir" -lt "0" ] || [ "$temp_dir" -gt "448" ]; then
+		direction=$(fbc "-1 * $direction");
+	fi
+	bs_i=$(fbc "$bs_i + $direction");
 done
