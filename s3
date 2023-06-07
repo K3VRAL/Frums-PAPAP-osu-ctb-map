@@ -1,0 +1,204 @@
+#!/bin/bash
+source "./functions.sh"
+
+map="Frums - Pictured as Perfect and Plus (K 3 V R A L) [[]!) []= \`\$[-_=  !'' -$...].osu";
+lc=0;
+w_spin_t=(261892 261971 262076 262155 262260 262339);
+w_spin_len=${#w_spin_t[@]};
+w_spin_i=0;
+dist=4;
+t_length="26.31";
+
+# Part 1 & 2
+seq_end=1;
+for j in $(seq 0 $seq_end); do
+	start_time=$(fbc "262444 + (2527 * $j)");
+	direction=$(fbc "-64 * (1 + $j)");
+	floor=$(fbc "64 * $j");
+	repeat=$(fbc "12 / (1 + $j)");
+	bs_i=192;
+	ceiling=$(fbc "512 - (128 + $floor)");
+	density=8;
+
+	seq_end=$(fbc "($density * $repeat) - 1")
+	for i in $(seq 0 $seq_end); do
+		temp_den=$(fbc "($i + 1) % $density")
+		if [ "$temp_den" -eq "0" ]; then
+			temp_fc=$(fbc "$bs_i + ($direction / 2)");
+			if [ "$temp_fc" -lt "$floor" ] || [ "$temp_fc" -gt "$ceiling" ]; then
+				direction=$(fbc "-1 * $direction");
+			fi
+
+			bs_i=$(fbc "$bs_i + ($direction / 2)")
+		fi
+
+		x1_left=$(fbc "$bs_i");
+		x2_left=$(fbc "$bs_i");
+		x1_right=$(fbc "$x1_left + 128");
+		x2_right=$(fbc "$x2_left + 128");
+		time_s=$(fpf $(fbc "($t_length * $i) + $start_time"));
+		time_e=$(fpf $(fbc "$time_s + $t_length"));
+		w_spin="";
+		for x in $w_spin_len; do
+			w_spin="$w_spin -w $(fbc "${w_spin_t[$(fbc "$w_spin_i % ($w_spin_len - 1)")]} - $time_s"):1";
+			w_spin_i=$(fbc "$w_spin_i + 1");
+		done
+		lc_new=$(fwc "$map");
+
+		echo "$j | $i | $bs_i | $direction | $time_s , $time_e | $x1_left , $x1_right | $x2_left , $x2_right";
+
+		bnprdctr -b "$map" -o /tmp/file.osu -s "$x1_right:$time_s|$x1_left:$time_s|$x2_left:$time_e|$x2_right:$time_e" $w_spin -d "$dist" -u "$lc" \
+		&& cat /tmp/file.osu >> "$map";
+
+		lc_after=$(fwc "$map");
+		lc=$(fbc "$lc_after - $lc_new + $lc");
+
+		if [ "$temp_den" -eq "0" ]; then
+			bs_i=$(fbc "$bs_i + ($direction / 2)");
+		fi
+	done
+done
+
+# Part 2.5
+start_time=266234;
+seq_end=8;
+for i in $(seq 0 $seq_end); do
+	x_left=192;
+	x_right=$(fbc "512 - $x_left");
+	time_s=$(fpf $(fbc "($t_length * $i) + $start_time"));
+	time_e=$(fpf $(fbc "$time_s + $t_length"));
+	w_spin="";
+	for x in $w_spin_len; do
+		w_spin="$w_spin -w $(fbc "${w_spin_t[$(fbc "$w_spin_i % ($w_spin_len - 1)")]} - $time_s"):1";
+		w_spin_i=$(fbc "$w_spin_i + 1");
+	done
+	lc_new=$(fwc "$map");
+
+	echo "$i | $time_s , $time_e | $x_left , $x_right";
+
+	bnprdctr -b "$map" -o /tmp/file.osu -s "$x_right:$time_s|$x_left:$time_s|$x_left:$time_e|$x_right:$time_e" $w_spin -d "$dist" -u "$lc" \
+	&& cat /tmp/file.osu >> "$map";
+
+	lc_after=$(fwc "$map");
+	lc=$(fbc "$lc_after - $lc_new + $lc");
+done
+
+# Part 3
+start_time=266444;
+seq_end=8;
+for i in $(seq 0 $seq_end); do
+	if [ "$i" -eq "0" ]; then
+		x1_left=96;
+		x1_lmid=256;
+		x2_left=0;
+		x2_lmid=256;
+	elif [ "$i" -lt "3" ]; then
+		x1_left=0;
+		x1_lmid=256;
+		x2_left=0;
+		x2_lmid=192;
+	else
+		x1_left=0;
+		x1_lmid=192;
+		x2_left=0;
+		x2_lmid=192;
+	fi
+	x1_right=$(fbc "512 - $x1_left");
+	x1_rmid=$(fbc "512 - $x1_lmid");
+	x2_right=$(fbc "512 - $x2_left");
+	x2_rmid=$(fbc "512 - $x2_lmid");
+	time_s=$(fpf $(fbc "($t_length * $i) + $start_time"));
+	time_e=$(fpf $(fbc "$time_s + $t_length"));
+	x_total="-s $x1_left:$time_s|$x1_lmid:$time_s|$x2_lmid:$time_e|$x2_left:$time_e -s $x1_right:$time_s|$x1_rmid:$time_s|$x2_rmid:$time_e|$x2_right:$time_e";
+	w_spin="";
+	for x in $w_spin_len; do
+		w_spin="$w_spin -w $(fbc "${w_spin_t[$(fbc "$w_spin_i % ($w_spin_len - 1)")]} - $time_s"):1";
+		w_spin_i=$(fbc "$w_spin_i + 1");
+	done
+	lc_new=$(fwc "$map");
+
+	echo "$i | $time_s , $time_e | $x1_left , $x1_right | $x2_left , $x2_right";
+
+	bnprdctr -b "$map" -o /tmp/file.osu $x_total $w_spin -d "$dist" -u "$lc" \
+	&& cat /tmp/file.osu >> "$map";
+
+	lc_after=$(fwc "$map");
+	lc=$(fbc "$lc_after - $lc_new + $lc");
+done
+
+# Part 4
+start_time=266444;
+seq_end=6;
+for i in $(seq 0 $seq_end); do
+	if [ "$i" -eq "0" ]; then
+		x1_left=96;
+		x1_lmid=256;
+		x2_left=0;
+		x2_lmid=256;
+	elif [ "$i" -lt "3" ]; then
+		x1_left=0;
+		x1_lmid=256;
+		x2_left=0;
+		x2_lmid=192;
+	else
+		x1_left=0;
+		x1_lmid=192;
+		x2_left=0;
+		x2_lmid=192;
+	fi
+	x1_right=$(fbc "512 - $x1_left");
+	x1_rmid=$(fbc "512 - $x1_lmid");
+	x2_right=$(fbc "512 - $x2_left");
+	x2_rmid=$(fbc "512 - $x2_lmid");
+	time_s=$(fpf $(fbc "($t_length * $i) + $start_time"));
+	time_e=$(fpf $(fbc "$time_s + $t_length"));
+	x_total="-s $x1_left:$time_s|$x1_lmid:$time_s|$x2_lmid:$time_e|$x2_left:$time_e -s $x1_right:$time_s|$x1_rmid:$time_s|$x2_rmid:$time_e|$x2_right:$time_e";
+	w_spin="";
+	for x in ${w_spin_t[@]}; do
+		w_spin="$w_spin -w $(fbc "$x - $time_s"):1";
+	done;
+	lc_new=$(fwc "$map");
+
+	echo "$i | $x1_left , $x1_right | $x2_left , $x2_right";
+
+	bnprdctr -b "$map" -o /tmp/file.osu $x_total $w_spin -d "$dist" -u "$lc" \
+	&& cat /tmp/file.osu >> "$map";
+
+	lc_after=$(fwc "$map");
+	lc=$(fbc "$lc_after - $lc_new + $lc");
+done
+
+# Part 5
+start_time=266707;
+seq_end=3;
+for i in $(seq 0 $seq_end); do
+	if [ "$i" -eq "0" ]; then
+		x1_left=240;
+		x1_lmid=256;
+	else
+		x1_left=$(fbc "192 - (96 * ($i - 1))");
+		x1_lmid=$(fbc "240 - (96 * ($i - 1))");
+	fi
+	x2_left=$x1_left;
+	x2_lmid=$x1_lmid;
+	x1_right=$(fbc "512 - $x1_left");
+	x1_rmid=$(fbc "512 - $x1_lmid");
+	x2_right=$(fbc "512 - $x2_left");
+	x2_rmid=$(fbc "512 - $x2_lmid");
+	time_s=$(fpf $(fbc "($t_length * $i) + $start_time"));
+	time_e=$(fpf $(fbc "$time_s + $t_length"));
+	x_total="-s $x1_left:$time_s|$x1_lmid:$time_s|$x2_lmid:$time_e|$x2_left:$time_e -s $x1_right:$time_s|$x1_rmid:$time_s|$x2_rmid:$time_e|$x2_right:$time_e";
+	w_spin="";
+	for x in ${w_spin_t[@]}; do
+		w_spin="$w_spin -w $(fbc "$x - $time_s"):1";
+	done;
+	lc_new=$(fwc "$map");
+
+	echo "$i | $x1_left , $x1_lmid | $x1_right , $x1_rmid";
+
+	bnprdctr -b "$map" -o /tmp/file.osu $x_total $w_spin -d "$dist" -u "$lc" \
+	&& cat /tmp/file.osu >> "$map";
+
+	lc_after=$(fwc "$map");
+	lc=$(fbc "$lc_after - $lc_new + $lc");
+done
