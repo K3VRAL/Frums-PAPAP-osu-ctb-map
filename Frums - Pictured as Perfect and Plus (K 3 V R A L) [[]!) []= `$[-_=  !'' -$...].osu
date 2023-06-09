@@ -12,7 +12,7 @@ LetterboxInBreaks: 0
 WidescreenStoryboard: 0
 
 [Editor]
-Bookmarks: 201813,243286,243497
+Bookmarks: 194234,243286,243497
 DistanceSpacing: 1.5
 BeatDivisor: 12
 GridSize: 8
@@ -52,6 +52,7 @@ SliderTickRate:0.5
 971,315.789473684211,4,2,0,100,1,0
 201813,315.789473684211,4,2,0,100,1,0
 201813,NaN,4,2,0,100,0,0
+243497,-100,4,2,0,100,0,0
 
 
 [HitObjects]
