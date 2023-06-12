@@ -5,7 +5,11 @@ fbc () {
 }
 
 fpf () {
-	printf "%.0f" "$1"
+	echo "scale=0; ($1-0.5)/1" | bc
+}
+
+fru () {
+	echo "scale=0; ($1+0.5)/1" | bc
 }
 
 fwc () {

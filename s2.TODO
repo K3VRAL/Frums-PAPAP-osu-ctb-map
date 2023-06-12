@@ -7,28 +7,54 @@ w_spin_t=(256865 256997 257128 257260);
 dist=4;
 t_length="26.31";
 
-# Part 1 TODO
-bs=();
-bs_len=${#bs[@]};
-start_time=257392;
-seq_itr=1;
-seq_end=0;
-for i in $(seq 0 $seq_itr $seq_end); do
-	x_left=;
-	x_right=;
-	time_s=$(fpf $(fbc "($t_length * ($i / 2)) + $start_time"));
-	time_e=$(fpf $(fbc "$time_s + $t_length"));
-	w_spin="";
-	for x in ${w_spin_t[@]}; do
-		w_spin="$w_spin -w $(fbc "$x - $time_s"):1";
-	done;
-	lc_new=$(fwc "$map");
+for j in $(seq 0 1); do
+	if [ "$j" -eq "0" ]; then
+		# Part 1
+		bs=(257392 257707 257865 257971 258207 258392 258497 258602 258681 258760 258813 258865 258918);
+		bs_len=$(fbc "${#bs[@]} - 1");
+		seq_itr="0.5";
+		distance=128;
+		x_left=0;
+		x_lend=0;
+		x_rend=512;
+		x_mod=1;
+	elif [ "$j" -eq "1" ]; then
+		# Part 2
+		bs=();
+		for i in $(seq 0 36); do
+			bs=("${bs[@]}" "$(fpf $(fbc "($i * $t_length) + 258971"))");
+		done
+		seq_itr=1;
+		x_mod=1;
+	fi
+	bs_len=$(fbc "${#bs[@]} - 1");
+	direction=1;
 
-	echo "$i | $time_s | $time_e";
+	for i in $(seq 0 $seq_itr $bs_len); do
+		x_right=$(fbc "$x_left + $distance");
+		time_s=$(fbc "${bs[$(fpf "$i")]}");
+		time_e=$(fbc "$time_s + 1");
+		w_spin="";
+		for x in ${w_spin_t[@]}; do
+			w_spin="$w_spin -w $(fbc "$x - $time_s"):1";
+		done;
+		lc_new=$(fwc "$map");
 
-	bnprdctr -b "$map" -o /tmp/file.osu -s "$x_left:$time_s|$x_right:$time_s|$x_right:$time_e|$x_left:$time_e" $w_spin -d "$dist" -u "$lc" \
-	&& cat /tmp/file.osu >> "$map";
+		echo "$i | $x_left , $x_right | $time_s , $time_e";
 
-	lc_after=$(fwc "$map");
-	lc=$(fbc "$lc_after - $lc_new + $lc");
+		bnprdctr -b "$map" -o /tmp/file.osu -s "$x_left:$time_s|$x_right:$time_s|$x_right:$time_e|$x_left:$time_e" $w_spin -d "$dist" -u "$lc" \
+		&& cat /tmp/file.osu >> "$map";
+
+		lc_after=$(fwc "$map");
+		lc=$(fbc "$lc_after - $lc_new + $lc");
+
+		temp_mod=$(fru $(fbc "($i + $seq_itr) % $x_mod"));
+		if [ "$temp_mod" -eq "0" ]; then
+			temp_dir=$(fbc "$x_left + ($direction * $distance)");
+			if [ "$temp_dir" -lt "$x_lend" ] || [ "$temp_dir" -ge "$x_rend" ]; then
+				direction=$(fbc "$direction * -1");
+			fi
+			x_left=$(fbc "$x_left + ($direction * $distance)");
+		fi
+	done
 done
