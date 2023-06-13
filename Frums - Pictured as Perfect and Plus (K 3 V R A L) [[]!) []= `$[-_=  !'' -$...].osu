@@ -36,7 +36,7 @@ CircleSize:3
 OverallDifficulty:7
 ApproachRate:10
 SliderMultiplier:3.6
-SliderTickRate:0.5
+SliderTickRate:2
 
 [Events]
 //Background and Video events
