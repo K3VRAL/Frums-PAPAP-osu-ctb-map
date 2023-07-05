@@ -16,15 +16,17 @@ for i in $(seq 0 $seq_end); do
 	x2_right=$(fbc "512 - ($dist * ($i + 1))");
 	time_s=$(fpf $(fbc "($t_length * $i) + $start_time"));
 	time_e=$(fpf $(fbc "$time_s + $t_length"));
-	time_o=$(fpf $(fbc "(105 * $i) + ($sp_time - $start_time)"));
+
 	lc_new=$(fwc "$map");
+
+	sp_amount=131;
+	time_o=$(fpf $(fbc "($i * $sp_amount) + $sp_time"));
 	spin_w="";
-	sp_amount=105;
 	for x in $(seq 0 $sp_amount); do
-		spin_w="$spin_w -w $(fbc "$x * 2 + $time_o"):100";
+		spin_w="$spin_w -w $(fbc "$x + $time_o"):100";
 	done;
 
-	echo "$i | $lc : $time_s , $time_e : $x_left , $x_right , $x2_right , $x2_left - $time_o";
+	echo "$i | $lc : $time_s , $time_e , $time_o : $x_left , $x_right , $x2_right , $x2_left";
 
 	bnprdctr -b "$map" -o /tmp/file.osu -s "$x_left:$time_s|$x_right:$time_s|$x2_right:$time_e|$x2_left:$time_e" $spin_w -d "$dist" -u "$lc" \
 	&& cat /tmp/file.osu >> "$map";

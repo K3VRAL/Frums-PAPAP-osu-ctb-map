@@ -31,7 +31,7 @@ for i in $(seq 0 $seq_itr $seq_end); do
 	time_e=$(fpf $(fbc "$time_s + $t_length"));
 	w_spin="";
 	for x in ${w_spin_t[@]}; do
-		w_spin="$w_spin -w $(fbc "${w_spin_t[$(fbc "$w_spin_i % ($w_spin_len - 1)")]} - $time_s"):1";
+		w_spin="$w_spin -w ${w_spin_t[$(fbc "$w_spin_i % ($w_spin_len - 1)")]}:1";
 		w_spin_i=$(fbc "$w_spin_i + 1");
 	done
 	lc_new=$(fwc "$map");
@@ -94,7 +94,7 @@ for j in $(seq 0 1); do
 		time_e=$(fpf $(fbc "$time_s + $t_length"));
 		w_spin="";
 		for x in ${w_spin_t[@]}; do
-			w_spin="$w_spin -w $(fbc "${w_spin_t[$(fbc "$w_spin_i % ($w_spin_len - 1)")]} - $time_s"):1";
+			w_spin="$w_spin -w ${w_spin_t[$(fbc "$w_spin_i % ($w_spin_len - 1)")]}:1";
 			w_spin_i=$(fbc "$w_spin_i + 1");
 		done
 		lc_new=$(fwc "$map");
@@ -122,14 +122,14 @@ for i in $(seq 0 $seq_end); do
 	time_e=$(fpf $(fbc "$time_s + $t_length"));
 	w_spin="";
 	for x in ${w_spin_t[@]}; do
-		w_spin="$w_spin -w $(fbc "${w_spin_t[$(fbc "$w_spin_i % ($w_spin_len - 1)")]} - $time_s"):1";
+		w_spin="$w_spin -w ${w_spin_t[$(fbc "$w_spin_i % ($w_spin_len - 1)")]}:1";
 		w_spin_i=$(fbc "$w_spin_i + 1");
 	done
 	lc_new=$(fwc "$map");
 
-	echo "$i | $bs_i | $direction | $time_s , $time_e | $x_left , $x_right";
+	echo "$i | $bs_i | $direction | $x_left , $x_right | $time_s , $time_e";
 
-	bnprdctr -b "$map" -o /tmp/file.osu -s "$x_right:$time_s|$x_left:$time_s|$x_left:$time_e|$x_right:$time_e" $w_spin -d "$dist" -u "$lc" \
+	bnprdctr -b "$map" -o /tmp/file.osu -s "$x_left:$time_s|$x_right:$time_s|$x_right:$time_e|$x_left:$time_e" $w_spin -d "$dist" -u "$lc" \
 	&& cat /tmp/file.osu >> "$map";
 
 	lc_after=$(fwc "$map");
