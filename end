@@ -11,10 +11,10 @@ curr="0";
 for i in $(seq 1 $spacing); do
 	curr_time=$(fpf $(fbc "$curr + $start_time"));
 	cs_time=$(fpf $(fbc "$curr_time + $spacing"));
-	echo "$i :";
+	echo "$i";
 
 	bnprdctr -b "$map" -o /tmp/file.osu -s "0:$curr_time|512:$curr_time|512:$cs_time|0:$cs_time" -c "256:192" -d "$i" \
 	&& cat /tmp/file.osu >> "$map";
 
-	curr=$(echo "$curr + ($time / $spacing)" | bc -l);
+	curr=$(fbc "$curr + ($time / $spacing)");
 done
