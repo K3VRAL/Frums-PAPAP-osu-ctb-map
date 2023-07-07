@@ -6,7 +6,7 @@ spacing=100;
 time=8211;
 start_time=292128;
 points=(251076 251392 251707 251813 252023 252076 252128 252181);
-curr="0";
+curr=0;
 
 for i in $(seq 1 $spacing); do
 	curr_time=$(fpf $(fbc "$curr + $start_time"));

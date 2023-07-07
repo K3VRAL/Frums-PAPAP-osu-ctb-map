@@ -9,7 +9,7 @@ t_length="26.31";
 
 for j in $(seq 0 1); do
 	if [ "$j" -eq "0" ]; then
-		# Part 1
+		# Part 1 TODO
 		bs=(257392 257707 257865 257971 258207 258392 258497 258602 258681 258760 258813 258865 258918);
 		bs_len=$(fbc "${#bs[@]} - 1");
 		seq_itr="0.5";
@@ -19,7 +19,7 @@ for j in $(seq 0 1); do
 		x_rend=512;
 		x_mod=1;
 	elif [ "$j" -eq "1" ]; then
-		# Part 2
+		# Part 2 TODO
 		bs=();
 		for i in $(seq 0 36); do
 			bs=("${bs[@]}" "$(fpf $(fbc "($i * $t_length) + 258971"))");
