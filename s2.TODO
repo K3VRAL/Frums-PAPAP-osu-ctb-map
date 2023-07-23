@@ -37,13 +37,13 @@ for k in $(seq 2 $seq_part); do
 		# Part 2 TODO
 		start_time=258813;
 	elif [ "$k" -eq "2" ]; then
-		# Part 3 TODO
+		# Part 3
 		bs=(260865 261207 261339 261576 261707 261813);
 		bs_len=${#bs[@]};
 
-		for i in $(seq 0 2 $bs_len); do
-			x_left=$(((160 * ($bs_len / 2)) + (32 * ($i == $bs_len))));
-			x_right=$(((160 * (($bs_len / 2) + 1)) + (32 * ($i == $bs_len))));;
+		for i in $(seq 0 2 $(($bs_len - 1))); do
+			x_left=$(((160 * ($i / 2)) + (32 * ($i == $bs_len))));
+			x_right=$(((160 * (($i / 2) + 1)) + (32 * ($i == $bs_len))));
 			time_s=${bs[$i]};
 			time_e=${bs[$i + 1]};
 
