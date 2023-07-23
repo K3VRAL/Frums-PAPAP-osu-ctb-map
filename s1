@@ -6,8 +6,8 @@ lc=0;
 #w_spin_t=(251076 251392 251707 251813 252023 252076 252128 252181);
 w_spin_t=(300000);
 w_spin="";
-for x in ${w_spin_t[@]}; do
-	w_spin="-w $x:1 $w_spin";
+for i in ${w_spin_t[@]}; do
+	w_spin="$w_spin -w $i:1";
 done
 
 seq_part=2;
