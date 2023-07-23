@@ -11,12 +11,11 @@ for i in ${w_spin_t[@]}; do
 done
 
 seq_part=2;
-for k in $(seq 2 $seq_part); do
+for k in $(seq 0 $seq_part); do
 	if [ "$k" -eq "0" ]; then
 		# Part 1 TODO
 		bs=(257392 257707 257865 257971 258207 258392 258497 258602 258681);
 		bs_len=${#bs[@]};
-		t_length="26.31";
 
 		for i in $(seq 0 $bs_len); do
 			x_left=;
@@ -36,6 +35,7 @@ for k in $(seq 2 $seq_part); do
 	elif [ "$k" -eq "1" ]; then
 		# Part 2 TODO
 		start_time=258813;
+		t_length="26.31";
 	elif [ "$k" -eq "2" ]; then
 		# Part 3
 		bs=(260865 261207 261339 261576 261707 261813);
