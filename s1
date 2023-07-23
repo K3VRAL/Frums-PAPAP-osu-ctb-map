@@ -19,7 +19,7 @@ for k in $(seq 0 $seq_part); do
 		bnpd_l="";
 		bnpd_r="";
 		t_length="26.31";
-		bs=(176 328 112 280 64 244 32 220 16 208 8 202 0 196 8 202 16 208 32 220 64 244 112 280); # TODO Optimise with toggle traversal; forward and reverse
+		bs=(176 328 112 280 64 244 32 220 16 208 8 202 0 196 8 202 16 208 32 220 64 244 112 280);
 		bs_len=${#bs[@]};
 		start_time=252339;
 		dir=512;
