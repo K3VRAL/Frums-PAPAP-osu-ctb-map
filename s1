@@ -1,6 +1,4 @@
 #!/bin/bash
-source "./functions.sh"
-
 map="Frums - Pictured as Perfect and Plus (K 3 V R A L) [[]!) []= \`\$[-_=  !'' -$...].osu";
 dist=4;
 lc=0;
@@ -26,15 +24,15 @@ for k in $(seq 0 $seq_part); do
 		switch=1;
 		seq_end=238;
 		for i in $(seq 0 2 $seq_end); do
-			temp_mod=$(fbc "$i % $bs_len");
+			temp_mod=$(($i % $bs_len));
 			if [ "$temp_mod" -eq "0" ]; then
-				dir=$(fbc "512 - $dir");
-				switch=$(fbc "1 - $switch");
+				dir=$((512 - $dir));
+				switch=$((1 - $switch));
 			fi
 			
-			x_left=$(fabs $(fbc "$dir - ${bs[$(fbc "($i + $switch) % $bs_len")]}"));
-			x_right=$(fabs $(fbc "$dir - ${bs[$(fbc "($i + (1 - $switch)) % $bs_len")]}"));
-			time=$(fpf $(fbc "($t_length * ($i / 2)) + $start_time"));
+			x_left=$(echo $(($dir - ${bs[$((($i + $switch) % $bs_len))]})) | sed "s/-//");
+			x_right=$(echo $(($dir - ${bs[$((($i + (1 - $switch)) % $bs_len))]})) | sed "s/-//");
+			time=$(echo "scale=0; ($(echo "($t_length * ($i / 2)) + $start_time" | bc) - 0.5) / 1" | bc);
 
 			echo "$k/$seq_part | $i | $time | $x_left , $x_right";
 
@@ -45,12 +43,12 @@ for k in $(seq 0 $seq_part); do
 		bnpd_l=$(echo "$bnpd_l" | tail -c +2);
 		bnpd_r=$(echo "$bnpd_r" | head -c -2);
 
-		lc_new=$(fwc "$map");
+		lc_new=$(wc -l < "$map");
 
 		bnprdctr -b "$map" -o /tmp/file.osu -s "$bnpd_l|$bnpd_r" $w_spin -d "$dist" \
 		&& cat /tmp/file.osu >> "$map";
 
-		lc=$(fbc "$(fwc "$map") - $lc_new + $lc");
+		lc=$(($(wc -l < "$map") - $lc_new + $lc));
 	elif [ "$k" -eq "1" ]; then
 		# Part 2
 		bs=(96 416);
@@ -59,19 +57,19 @@ for k in $(seq 0 $seq_part); do
 		gap_length=158;
 		end_length=131;
 		for i in $(seq 0 3); do
-			x_left=${bs[$(fbc "$i % $bs_len")]};
-			x_right=$(fbc "$x_left + ((($i % 2 == 0) - ($i % 2 != 0)) * 128)");
-			time_s=$(fbc "($gap_length * $i) + $start_time");
-			time_e=$(fbc "$end_length + $time_s");
+			x_left=${bs[$(($i % $bs_len))]};
+			x_right=$(($x_left + ((($i % 2 == 0) - ($i % 2 != 0)) * 128)));
+			time_s=$((($gap_length * $i) + $start_time));
+			time_e=$(($end_length + $time_s));
 
 			echo "$k/$seq_part | $i | $time_s , $time_e | $x_left , $x_right";
 
-			lc_new=$(fwc "$map");
+			lc_new=$(wc -l < "$map");
 
 			bnprdctr -b "$map" -o /tmp/file.osu -s "$x_left:$time_s|$x_right:$time_s|$x_right:$time_e|$x_left:$time_e" $w_spin -d "$dist" -u "$lc" \
 			&& cat /tmp/file.osu >> "$map";
 
-			lc=$(fbc "$(fwc "$map") - $lc_new + $lc");
+			lc=$(($(wc -l < "$map") - $lc_new + $lc));
 		done
 	elif [ "$k" -eq "2" ]; then
 		# Part 3
@@ -80,26 +78,26 @@ for k in $(seq 0 $seq_part); do
 		end_length=79;
 		dir=512;
 		for i in $(seq 0 3); do
-			dir=$(fbc "512 - $dir");
-			x1_left=$(fabs $(fbc "$dir - 0"));
-			x2_left=$(fabs $(fbc "$dir - 128"));
-			x1_right=$(fabs $(fbc "$x1_left - ((($i % 2 != 0) - ($i % 2 == 0)) * 256)"));
-			x2_right=$(fabs $(fbc "$x2_left - ((($i % 2 != 0) - ($i % 2 == 0)) * 256)"));
-			time_s=$(fbc "($gap_length * $i) + $start_time");
+			dir=$((512 - $dir));
+			x1_left=$(echo $(($dir - 0)) | sed "s/-//");
+			x2_left=$(echo $(($dir - 128)) | sed "s/-//");
+			x1_right=$(echo $(($x1_left - ((($i % 2 != 0) - ($i % 2 == 0)) * 256))) | sed "s/-//");
+			x2_right=$(echo $(($x2_left - ((($i % 2 != 0) - ($i % 2 == 0)) * 256))) | sed "s/-//");
+			time_s=$((($gap_length * $i) + $start_time));
 			if [ "$i" -ne "3" ]; then
-				time_e=$(fbc "$end_length + $time_s");
+				time_e=$(($end_length + $time_s));
 			else
-				time_e=$(fbc "$gap_length + $time_s");
+				time_e=$(($gap_length + $time_s));
 			fi
 
 			echo "$k/$seq_part | $i | $time_s , $time_e | $x1_left , $x2_left ; $x1_right , $x2_right";
 
-			lc_new=$(fwc "$map");
+			lc_new=$(wc -l < "$map");
 
 			bnprdctr -b "$map" -o /tmp/file.osu -s "$x1_left:$time_s|$x1_right:$time_s|$x2_right:$time_e|$x2_left:$time_e" $w_spin -d "$dist" -u "$lc" \
 			&& cat /tmp/file.osu >> "$map";
 
-			lc=$(fbc "$(fwc "$map") - $lc_new + $lc");
+			lc=$(($(wc -l < "$map") - $lc_new + $lc));
 		done
 	fi
 done
