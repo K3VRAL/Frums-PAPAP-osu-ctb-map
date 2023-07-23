@@ -30,8 +30,8 @@ for k in $(seq 0 $seq_part); do
 				switch=$((1 - $switch));
 			fi
 			
-			x_left=$(echo $(($dir - ${bs[$((($i + $switch) % $bs_len))]})) | sed "s/-//");
-			x_right=$(echo $(($dir - ${bs[$((($i + (1 - $switch)) % $bs_len))]})) | sed "s/-//");
+			x_left=$(echo $(($dir - ${bs[($i + $switch) % $bs_len]})) | sed "s/-//");
+			x_right=$(echo $(($dir - ${bs[($i + (1 - $switch)) % $bs_len]})) | sed "s/-//");
 			time=$(echo "scale=0; ($(echo "($t_length * ($i / 2)) + $start_time" | bc) - 0.5) / 1" | bc);
 
 			echo "$k/$seq_part | $i | $time | $x_left , $x_right";
@@ -57,7 +57,7 @@ for k in $(seq 0 $seq_part); do
 		gap_length=158;
 		end_length=131;
 		for i in $(seq 0 3); do
-			x_left=${bs[$(($i % $bs_len))]};
+			x_left=${bs[$i % $bs_len]};
 			x_right=$(($x_left + ((($i % 2 == 0) - ($i % 2 != 0)) * 128)));
 			time_s=$((($gap_length * $i) + $start_time));
 			time_e=$(($end_length + $time_s));

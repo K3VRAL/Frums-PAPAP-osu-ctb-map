@@ -11,7 +11,7 @@ for i in ${w_spin_t[@]}; do
 done
 
 seq_part=2;
-for k in $(seq 0 $seq_part); do
+for k in $(seq 2 $seq_part); do
 	if [ "$k" -eq "0" ]; then
 		# Part 1 TODO
 		bs=(257392 257707 257865 257971 258207 258392 258497 258602 258681);
@@ -34,7 +34,27 @@ for k in $(seq 0 $seq_part); do
 			lc=$(($(wc -l < "$map") - $lc_new + $lc));
 		done
 	elif [ "$k" -eq "1" ]; then
-		# Part 1.5 TODO
+		# Part 2 TODO
 		start_time=258813;
+	elif [ "$k" -eq "2" ]; then
+		# Part 3 TODO
+		bs=(260865 261207 261339 261576 261707 261813);
+		bs_len=${#bs[@]};
+
+		for i in $(seq 0 2 $bs_len); do
+			x_left=$(((160 * ($bs_len / 2)) + (32 * ($i == $bs_len))));
+			x_right=$(((160 * (($bs_len / 2) + 1)) + (32 * ($i == $bs_len))));;
+			time_s=${bs[$i]};
+			time_e=${bs[$i + 1]};
+
+			echo "$k/$seq_part | $i | $time_s , $time_e | $x_left , $x_right";
+
+			lc_new=$(wc -l < "$map");
+
+			bnprdctr -b "$map" -o /tmp/file.osu -s "$x_left:$time_s|$x_right:$time_s|$x_right:$time_e|$x_left:$time_e" $w_spin -d "$dist" -u "$lc" \
+			&& cat /tmp/file.osu >> "$map";
+
+			lc=$(($(wc -l < "$map") - $lc_new + $lc));
+		done
 	fi
 done
