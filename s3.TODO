@@ -23,14 +23,13 @@ for k in $(seq 0 $seq_part); do
 			dir=$((-64 * (1 + $j)));
 			floor=$((64 * $j));
 			ceiling=$((512 - (128 + $floor)));
-			repeat=$(((12 / ($j + 1)) - ($j % 2 == 0)));
+			repeat=$(((12 / ($j + 1)) - 1));
 			x_axis=192;
-			t_length="26.31";
 
 			for i in $(seq 0 $repeat); do
 				x_left=$x_axis;
 				x_right=$(($x_left + 128));
-				time_s=$(echo "scale=0; ($(echo "($t_length * $i) + $start_time + ($i * 158)" | bc) - 0.5) / 1" | bc);
+				time_s=$(($start_time + ($i * 211)));
 				time_e=$(($time_s + 158));
 
 				temp_dir=$(($x_axis + $dir));
