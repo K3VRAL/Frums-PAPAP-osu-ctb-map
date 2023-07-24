@@ -36,11 +36,11 @@ for k in $(seq 0 $seq_part); do
 		# Part 2
 		bs=(257971 258207 258392 258497 258602 258681);
 		bs_len=${#bs[@]};
-		curr=-1;
+		curr=0;
 
 		for i in $(seq 0 $(($bs_len - 1))); do
-			curr=$(($curr + ($i % 2 == 0)));
 			x_left=$(echo $(((512 * ($i % 2 != 0)) - 416 + ($curr * 32))) | sed "s/-//");
+			curr=$(($curr + ($i % 2 == 0)));
 			x_right=$(($x_left + ((($i % 2 != 0) - ($i % 2 == 0)) * 64)));
 			time_s=${bs[$i]};
 			time_e=$(($time_s + 26));
