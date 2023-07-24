@@ -7,46 +7,42 @@ lc=0;
 w_spin_t=(300000);
 w_spin="";
 for i in ${w_spin_t[@]}; do
-        w_spin="$w_spin -w $x:1";
+        w_spin="$w_spin -w $i:1";
 done
 
 seq_part=1;
-for k in $(seq 1 $seq_part); do # TODO Change me back to 0
+for k in $(seq 0 $seq_part); do
         if [ "$k" -eq "0" ]; then
-		# Part 1 & 2 TODO
+		# Part 1 & 2
 		bnpd_l="";
 		bnpd_r="";
 
 		seq_end=1;
 		for j in $(seq 0 $seq_end); do
 			start_time=$((262444 + (2527 * $j)));
-			direction=$((-64 * (1 + $j)));
+			dir=$((-64 * (1 + $j)));
 			floor=$((64 * $j));
 			ceiling=$((512 - (128 + $floor)));
-			repeat=$(((12 / (1 - $j)) * 2));
-			switch=1;
+			repeat=$(((12 / ($j + 1)) - ($j % 2 == 0)));
 			x_axis=192;
+			t_length="26.31";
 
 			for i in $(seq 0 $repeat); do
-				switch=$((1 - $switch));
-
-				if [ "$switch" -eq "0" ]; then
-					temp_fc=$(($x_axis + ($direction / 2)));
-					if [ "$temp_fc" -lt "$floor" ] || [ "$temp_fc" -gt "$ceiling" ]; then
-						direction=$((-1 * $direction));
-					fi
-
-					x_axis=$(($x_axis + ($direction / 2)))
-				fi
-
 				x_left=$x_axis;
 				x_right=$(($x_left + 128));
-				time=$(fpf $((($t_length * $i) + $start_time)));
+				time_s=$(echo "scale=0; ($(echo "($t_length * $i) + $start_time + ($i * 158)" | bc) - 0.5) / 1" | bc);
+				time_e=$(($time_s + 158));
 
-				echo "$k/$seq_part | $j/$seq_end | $i/$repeat | $time | $x_left , $x_right";
+				temp_dir=$(($x_axis + $dir));
+				if [ "$temp_dir" -lt "$floor" ] || [ "$temp_dir" -gt "$ceiling" ]; then
+					dir=$((-1 * $dir));
+				fi
+				x_axis=$(($x_axis + $dir));
 
-				bnpd_l="$bnpd_l|$x_left:$time";
-				bnpd_r="$x_right:$time|$bnpd_r";
+				echo "$k/$seq_part | $j/$seq_end | $i/$repeat | $time_s , $time_e | $x_left , $x_right";
+
+				bnpd_l="$bnpd_l|$x_left:$time_s|$x_left:$time_e";
+				bnpd_r="$x_right:$time_e|$x_right:$time_s|$bnpd_r";
 			done
 		done
 
@@ -55,10 +51,38 @@ for k in $(seq 1 $seq_part); do # TODO Change me back to 0
 
 		lc_new=$(wc -l < "$map");
 
-		bnprdctr -b "$map" -o /tmp/file.osu -s "$bnpd_l|$bnpd_r" $w_spin -d "$dist" -p \
+		bnprdctr -b "$map" -o /tmp/file.osu -s "$bnpd_l|$bnpd_r" $w_spin -d "$dist" \
 		&& cat /tmp/file.osu >> "$map";
 
 		lc=$(($(wc -l < "$map") - $lc_new + $lc));
 	elif [ "$k" -eq "1" ]; then
+		# Part 3 TODO
+		bnpd_d="";
+		bnpd_s="";
+
+		seq_end=3;
+		for i in $(seq 0 $seq_end); do
+			# Diamond
+			x=$(echo $((256 - ($i * 256))) | sed "s/-//");
+			time=$((266339 + (210 * ($i - (($i == 3) * 2)))));
+			bnpd_d="$bnpd_d|$x:$time";
+
+			# Shell
+			x_left=$(echo $(((512 * ($i % 2 != 0)) - 0)) | sed "s/-//");
+			x_right=$(echo $(($x_left + (192 * (($i % 2 == 0) - ($i % 2 != 0))))) | sed "s/-//");
+			time_s=$((266234 + (631 * (($i > 1) - ($i <= 1)))));
+			time_e=$(($time_s + (210 * (($i > 1) - ($i <= 1)))));
+			bnpd_s="$bnpd_s -s $x_left:$time_s|$x_right:$time_e|$x_left:$time_e";
+
+			echo "$k/$seq_part | $i/$seq_end | D : $time ; $x | S : $time_s , $time_e ; $x_left , $x_right";
+		done
+
+		bnpd_d=$(echo "$bnpd_d" | tail -c +2);
+
+		echo "$bnpd_d";
+		echo "$bnpd_s";
+
+		bnprdctr -b "$map" -o /tmp/file.osu -s $bnpd_d $bnpd_s $w_spin -d "$dist" -u "$lc" \
+		&& cat /tmp/file.osu >> "$map";
 	fi
 done
