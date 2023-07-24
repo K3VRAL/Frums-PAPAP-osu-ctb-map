@@ -1,7 +1,9 @@
 #!/bin/bash
 map="Frums - Pictured as Perfect and Plus (K 3 V R A L) [[]!) []= \`\$[-_=  !'' -$...].osu";
 dist=4;
-lc=0;
+
+bnpd_l="";
+bnpd_r="";
 
 #w_spin_t=(261892 261971 262076 262155 262260 262339);
 w_spin_t=(300000);
@@ -14,9 +16,6 @@ seq_part=1;
 for k in $(seq 0 $seq_part); do
         if [ "$k" -eq "0" ]; then
 		# Part 1 & 2
-		bnpd_l="";
-		bnpd_r="";
-
 		seq_end=1;
 		for j in $(seq 0 $seq_end); do
 			start_time=$((262444 + (2527 * $j)));
@@ -44,44 +43,17 @@ for k in $(seq 0 $seq_part); do
 				bnpd_r="$x_right:$time_e|$x_right:$time_s|$bnpd_r";
 			done
 		done
-
-		bnpd_l=$(echo "$bnpd_l" | tail -c +2);
-		bnpd_r=$(echo "$bnpd_r" | head -c -2);
-
-		lc_new=$(wc -l < "$map");
-
-		bnprdctr -b "$map" -o /tmp/file.osu -s "$bnpd_l|$bnpd_r" $w_spin -d "$dist" \
-		&& cat /tmp/file.osu >> "$map";
-
-		lc=$(($(wc -l < "$map") - $lc_new + $lc));
 	elif [ "$k" -eq "1" ]; then
 		# Part 3 TODO
-		bnpd_d="";
-		bnpd_s="";
 
-		seq_end=3;
+		seq_end=;
 		for i in $(seq 0 $seq_end); do
-			# Diamond
-			x=$(echo $((256 - ($i * 256))) | sed "s/-//");
-			time=$((266339 + (210 * ($i - (($i == 3) * 2)))));
-			bnpd_d="$bnpd_d|$x:$time";
-
-			# Shell
-			x_left=$(echo $(((512 * ($i % 2 != 0)) - 0)) | sed "s/-//");
-			x_right=$(echo $(($x_left + (192 * (($i % 2 == 0) - ($i % 2 != 0))))) | sed "s/-//");
-			time_s=$((266234 + (631 * (($i > 1) - ($i <= 1)))));
-			time_e=$(($time_s + (210 * (($i > 1) - ($i <= 1)))));
-			bnpd_s="$bnpd_s -s $x_left:$time_s|$x_right:$time_e|$x_left:$time_e";
-
-			echo "$k/$seq_part | $i/$seq_end | D : $time ; $x | S : $time_s , $time_e ; $x_left , $x_right";
 		done
-
-		bnpd_d=$(echo "$bnpd_d" | tail -c +2);
-
-		echo "$bnpd_d";
-		echo "$bnpd_s";
-
-		bnprdctr -b "$map" -o /tmp/file.osu -s $bnpd_d $bnpd_s $w_spin -d "$dist" -u "$lc" \
-		&& cat /tmp/file.osu >> "$map";
 	fi
 done
+
+bnpd_l=$(echo "$bnpd_l" | tail -c +2);
+bnpd_r=$(echo "$bnpd_r" | head -c -2);
+
+bnprdctr -b "$map" -o /tmp/file.osu -s "$bnpd_l|$bnpd_r" $w_spin -d "$dist" \
+&& cat /tmp/file.osu >> "$map";
