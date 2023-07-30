@@ -45,9 +45,20 @@ for k in $(seq 0 $seq_part); do
 		done
 	elif [ "$k" -eq "1" ]; then
 		# Part 3 TODO
+		seq_end=3;
+		for j in $(seq 0 $seq_end); do
+			repeat=$(($j)); # TODO 1 4 8 use quadritics.
 
-		seq_end=;
-		for i in $(seq 0 $seq_end); do
+			for i in $(seq 0 $repeat); do
+				x_left=$((192));
+				x_right=$((192 + 320));
+				time=$(());
+
+				echo "$k/$seq_part | $j/$seq_end | $i/$repeat | $time | $x_left , $x_right";
+
+				bnpd_l="$bnpd_l|$x_left:$time";
+				bnpd_r="$x_right:$time|$bnpd_r";
+			done
 		done
 	fi
 done
