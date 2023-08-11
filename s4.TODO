@@ -1,36 +1,20 @@
 #!/bin/bash
-source "./functions.sh"
-
 map="Frums - Pictured as Perfect and Plus (K 3 V R A L) [[]!) []= \`\$[-_=  !'' -$...].osu";
-lc=0;
-w_spin_t=(267023 267128 267181 267234 267286 267339 267392 267444);
 dist=4;
-t_length="26.31";
+lc=$(($(sed -n -e '/\[HitObjects\]/,$p' "$map" | tail -n +2 | wc -l) - 1));
 
-# Part 1 TODO
-bs=();
-bs_len=${#bs[@]};
-start_time=267497;
-seq_itr=1;
-seq_end=0;
-for i in $(seq 0 $seq_itr $seq_end); do
-	x1_left=
-	x1_right=
-	x2_left=
-	x2_right=
-	time_s=$(fpf $(fbc "($t_length * ($i / 2)) + $start_time"));
-	time_e=$(fpf $(fbc "$time_s + $t_length"));
-	w_spin="";
-	for x in ${w_spin_t[@]}; do
-		w_spin="$w_spin -w $(fbc "$x - $time_s"):1";
-	done;
-	lc_new=$(fwc "$map");
+#w_spin_t=(267023 267128 267181 267234 267286 267339 267392 267444);
+w_spin_t=(300000);
+w_spin="";
+for i in ${w_spin_t[@]}; do
+        w_spin="$w_spin -w $i:1";
+done
 
-	echo "$j | $i | $time_s | $time_e | $w_spin";
-
-	bnprdctr -b "$map" -o /tmp/file.osu -s "$x1_left:$time_s|$x1_right:$time_s|$x2_right:$time_e|$x2_left:$time_e" $w_spin -d "$dist" -u "$lc" \
-	&& cat /tmp/file.osu >> "$map";
-
-	lc_after=$(fwc "$map");
-	lc=$(fbc "$lc_after - $lc_new + $lc");
+seq_part=1;
+for k in $(seq 0 $seq_part); do
+        if [ "$k" -eq "0" ]; then
+		# Part 1 TODO
+	elif [ "$k" -eq "1" ]; then
+		# Part 2 TODO
+	fi
 done

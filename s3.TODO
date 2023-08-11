@@ -1,6 +1,7 @@
 #!/bin/bash
 map="Frums - Pictured as Perfect and Plus (K 3 V R A L) [[]!) []= \`\$[-_=  !'' -$...].osu";
 dist=4;
+lc=$(($(sed -n -e '/\[HitObjects\]/,$p' "$map" | tail -n +2 | wc -l) - 1));
 
 bnpd_l="";
 bnpd_r="";
