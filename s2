@@ -18,7 +18,7 @@ for k in $(seq 0 $seq_part); do
 		bs_len=${#bs[@]};
 
 		for i in $(seq 0 $(($bs_len - 1))); do
-			x_left=$(($i * 244));
+			x_left=$(($i * 224));
 			x_right=$(($x_left + 64));
 			time_s=${bs[$i]};
 			time_e=$(($time_s + 26));
@@ -40,10 +40,10 @@ for k in $(seq 0 $seq_part); do
 
 		for i in $(seq 0 $(($bs_len - 1))); do
 			x_left=$(echo $(((512 * ($i % 2 != 0)) - 416 + ($curr * 32))) | sed "s/-//");
-			curr=$(($curr + ($i % 2 == 0)));
 			x_right=$(($x_left + ((($i % 2 != 0) - ($i % 2 == 0)) * 64)));
 			time_s=${bs[$i]};
 			time_e=$(($time_s + 26));
+			curr=$(($curr + (($i + 1) % 2 == 0)));
 
 			echo "$k/$seq_part | $i | $time_s , $time_e | $x_left , $x_right";
 
@@ -55,9 +55,37 @@ for k in $(seq 0 $seq_part); do
 			lc=$(($(wc -l < "$map") - $lc_new + $lc));
 		done
 	elif [ "$k" -eq "2" ]; then
-		# Part 3 TODO
-		start_time=258813;
-		t_length="26.31";
+		# Part 3
+		bs=(258813 259997 260234 260602);
+		bs_len=${#bs[@]};
+		bnpd="";
+
+		for j in $(seq 0 1); do
+			bnpd_l="";
+			bnpd_r="";
+			
+			for i in $(seq 0 $(($bs_len - 1))); do
+				x_left=$(echo $(((512 * $j) - (192 + (160 * (($i == 2) - ($i == 1)))))) | sed "s/-//");
+				x_right=$(($x_left + (128 * (($j == 0) - ($j != 0)))));
+				time=${bs[$i]};
+
+				echo "$k/$seq_part | $i | $time | $x_left , $x_right";
+
+				bnpd_l="$bnpd_l|$x_left:$time";
+				bnpd_r="$x_right:$time|$bnpd_r";
+			done
+
+			bnpd_l=$(echo "$bnpd_l" | tail -c +2);
+			bnpd_r=$(echo "$bnpd_r" | head -c -2);
+			bnpd="$bnpd -s $bnpd_l|$bnpd_r"
+		done
+
+		lc_new=$(wc -l < "$map");
+
+		bnprdctr -b "$map" -o /tmp/file.osu $bnpd $w_spin -d "$dist" -u "$lc" \
+		&& cat /tmp/file.osu >> "$map";
+
+		lc=$(($(wc -l < "$map") - $lc_new + $lc));
 	elif [ "$k" -eq "3" ]; then
 		# Part 4
 		bs=(260865 261207 261339 261576 261707 261813);
