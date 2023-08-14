@@ -3,9 +3,6 @@ map="Frums - Pictured as Perfect and Plus (K 3 V R A L) [[]!) []= \`\$[-_=  !'' 
 dist=4;
 lc=$(($(sed -n -e '/\[HitObjects\]/,$p' "$map" | tail -n +2 | wc -l) - 1));
 
-bnpd_l="";
-bnpd_r="";
-
 #w_spin_t=(261892 261971 262076 262155 262260 262339);
 w_spin_t=(300000);
 w_spin="";
@@ -17,6 +14,8 @@ seq_part=1;
 for k in $(seq 0 $seq_part); do
         if [ "$k" -eq "0" ]; then
 		# Part 1 & 2
+		bnpd_l="";
+		bnpd_r="";
 		seq_end=1;
 		for j in $(seq 0 $seq_end); do
 			start_time=$((262444 + (2527 * $j)));
@@ -44,28 +43,21 @@ for k in $(seq 0 $seq_part); do
 				bnpd_r="$x_right:$time_e|$x_right:$time_s|$bnpd_r";
 			done
 		done
+		x_left=$x_axis;
+		x_right=$(($x_left + 128));
+		time=266444;
+
+		echo "$k/$seq_part | $time | $x_left , $x_right";
+
+		bnpd_l="$bnpd_l|$x_left:$time";
+		bnpd_r="$x_right:$time|$bnpd_r";
+
+		bnpd_l=$(echo "$bnpd_l" | tail -c +2);
+		bnpd_r=$(echo "$bnpd_r" | head -c -2);
+
+		bnprdctr -b "$map" -o /tmp/file.osu -s "$bnpd_l|$bnpd_r" $w_spin -d "$dist" \
+		&& cat /tmp/file.osu >> "$map";
 	elif [ "$k" -eq "1" ]; then
-		# Part 3 TODO
-		seq_end=3;
-		for j in $(seq 0 $seq_end); do
-			repeat=$(($j)); # TODO 1 4 8 use quadritics.
-
-			for i in $(seq 0 $repeat); do
-				x_left=$((192));
-				x_right=$((192 + 320));
-				time=$(());
-
-				echo "$k/$seq_part | $j/$seq_end | $i/$repeat | $time | $x_left , $x_right";
-
-				bnpd_l="$bnpd_l|$x_left:$time";
-				bnpd_r="$x_right:$time|$bnpd_r";
-			done
-		done
+		# Part 3 TODO Mathematically calculate the osu!catch banana image.
 	fi
 done
-
-bnpd_l=$(echo "$bnpd_l" | tail -c +2);
-bnpd_r=$(echo "$bnpd_r" | head -c -2);
-
-bnprdctr -b "$map" -o /tmp/file.osu -s "$bnpd_l|$bnpd_r" $w_spin -d "$dist" \
-&& cat /tmp/file.osu >> "$map";

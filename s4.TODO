@@ -10,11 +10,9 @@ for i in ${w_spin_t[@]}; do
         w_spin="$w_spin -w $i:1";
 done
 
-seq_part=1;
+seq_part=0;
 for k in $(seq 0 $seq_part); do
         if [ "$k" -eq "0" ]; then
 		# Part 1 TODO
-	elif [ "$k" -eq "1" ]; then
-		# Part 2 TODO
 	fi
 done
