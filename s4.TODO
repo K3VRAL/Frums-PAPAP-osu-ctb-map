@@ -12,6 +12,7 @@ done
 
 seq_part=0;
 for k in $(seq 0 $seq_part); do
+	# Part 3 TODO Mathematically calculate the osu\!catch banana image.
         if [ "$k" -eq "0" ]; then
 		# Part 1 TODO
 	fi
