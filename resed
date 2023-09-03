@@ -1,0 +1,3 @@
+#!/bin/bash
+map="Frums - Pictured as Perfect and Plus (K 3 V R A L) [[]!) []= \`\$[-_=  !'' -$...].osu";
+git restore "$map" && sed -e "s/v14/v8/" -e "/\[HitObjects\]/q" -i "$map"
