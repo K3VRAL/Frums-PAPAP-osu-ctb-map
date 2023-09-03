@@ -46,45 +46,51 @@ for k in $(seq 0 $seq_part); do
 				bnpd_r="$x_right:$time_e|$x_right:$time_s|$bnpd_r";
 			done
 		done
-		x_left=$x_axis;
-		x_right=$(($x_left + 128));
-		time=266444;
-
-		echo "$k/$seq_part | $time | $x_left , $x_right";
-
-		bnpd_l="$bnpd_l|$x_left:$time";
-		bnpd_r="$x_right:$time|$bnpd_r";
 
 		bnpd_l=$(echo "$bnpd_l" | tail -c +2);
 		bnpd_r=$(echo "$bnpd_r" | head -c -2);
 
 		lc_new=$(wc -l < "$map");
 
-		bnprdctr -b "$map" -o /tmp/file.osu -s "$bnpd_l|$bnpd_r" $w_spin -d "$dist" \
+		bnprdctr -b "$map" -o /tmp/file.osu -s "$bnpd_l|$bnpd_r" $w_spin -d "$dist" -u "$lc" \
 		&& cat /tmp/file.osu >> "$map";
 
 		lc=$(($(wc -l < "$map") - $lc_new + $lc));
 	elif [ "$k" -eq "1" ]; then
 		# Part 3 
 
-		# Triangle TODO
+		# Triangle
 		bnpd_t="";
-		radius=100;
+		radius=274;
 		seq_i=2;
 		for i in $(seq 0 $seq_i); do
-			x=$(printf "%.0f" "$(echo "100 + ($radius * c ($i * 2 * ((4 * a (1)) / 3)))" | bc -l)");
-			time=$(printf "%.0f" "$(echo "266549 + ($radius * s ($i * 2 * ((4 * a (1)) / 3)))" | bc -l)");
+			x=$(printf "%.0f" "$(echo "343 - ($radius * c ($i * 2 * ((4 * a (1)) / 3)))" | bc -l)");
+			time=$(printf "%.0f" "$(echo "266444 + ($radius * s ($i * 2 * ((4 * a (1)) / 3)))" | bc -l)");
+
+			echo "$k/$seq_part | $i/$seq_i | $x , $time";
+			
+			if [ "$i" -eq "1" ]; then
+				bnpd_t="$bnpd_t|$x:$time|$((x + 32)):$time";
+			elif [ "$i" -eq "2" ]; then
+				bnpd_t="$bnpd_t|$((x + 32)):$time|$x:$time";
+			else
+				bnpd_t="$bnpd_t|$x:$time";
+			fi
+		done
+		bnpd_t=$(echo "$bnpd_t" | tail -c +2);
+
+		# Square
+		bnpd_s="";
+		seq_i=3;
+		for i in $(seq 0 $seq_i); do
+			x="$((105 + ((($i % 3 == 0) - ($i % 3 != 0)) * 105)))";
+			time="$((266681 + ((($i >= 2) - ($i < 2)) * 105)))";
 
 			echo "$k/$seq_part | $i/$seq_i | $x , $time";
 
-			bnpd_t="$bnpd_t|$x:$time";
+			bnpd_s="$bnpd_s|$x:$time";
 		done
-		bnpd_t=$(echo "$bnpd_t" | tail -c +2);
-		echo "$bnpd_t";
-
-		# Square TODO
-		bnpd_s="";
-		# echo "$k/$seq_part | $bnpd_s";
+		bnpd_s=$(echo "$bnpd_s" | tail -c +2);
 
 		# Circle TODO Mathematically calculate a circle.
 		bnpd_c="";
