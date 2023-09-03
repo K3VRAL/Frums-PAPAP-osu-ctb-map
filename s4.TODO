@@ -2,6 +2,9 @@
 map="Frums - Pictured as Perfect and Plus (K 3 V R A L) [[]!) []= \`\$[-_=  !'' -$...].osu";
 dist=4;
 lc=$(($(sed -n -e '/\[HitObjects\]/,$p' "$map" | tail -n +2 | wc -l) - 1));
+if [ "$lc" -lt "0" ]; then
+	lc=0;
+fi
 
 #w_spin_t=(267023 267128 267181 267234 267286 267339 267392 267444);
 w_spin_t=(300000);
