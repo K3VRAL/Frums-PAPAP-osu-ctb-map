@@ -15,9 +15,14 @@ done
 
 seq_part=1;
 for k in $(seq 0 $seq_part); do
+	# Each part refer to their sections.
         if [ "$k" -eq "0" ]; then
 		# Part 1 TODO
 	elif [ "$k" -eq "1" ]; then
 		# Part 2 TODO
+	elif [ "$k" -eq "2" ]; then
+		# Part 3 TODO
+	elif [ "$k" -eq "3" ]; then
+		# Part 4 TODO Heart
 	fi
 done
