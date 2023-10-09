@@ -3,9 +3,9 @@ osu file format v14
 [General]
 AudioFilename: audio.mp3
 AudioLeadIn: 0
-PreviewTime: 354655
+PreviewTime: 100128
 Countdown: 0
-SampleSet: Soft
+SampleSet: Normal
 StackLeniency: 0.7
 Mode: 2
 LetterboxInBreaks: 0
@@ -24,7 +24,7 @@ TitleUnicode:Pictured as Perfect and Plus
 Artist:Frums
 ArtistUnicode:Frums
 Creator:K 3 V R A L
-Version:|/[]!|) []|= /\/\`/$[-|_|= / !'|' \|//-\$...
+Version:'|'#[-`/ #/-\|/[- $'|'[]|_[-|\| /-\\|//-\`/ /\/\`/ $|>!/2!'|' TODO /\/\[-/\/\[]/2![-$ $(/-\'|''|'[-/2[-|) !|\|'|'[] '|'#[- $|_!|>$'|'/2[-/-\/\/\
 Source:
 Tags:
 BeatmapID:0
