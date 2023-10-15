@@ -1,7 +1,7 @@
 #!/bin/bash
 source "./functions.sh"
 
-map="Frums - Pictured as Perfect and Plus (K 3 V R A L) [[]!) []= \`\$[-_=  !'' -$...].osu"
+map="Frums - Pictured as Perfect and Plus (K 3 V R A L).osu"
 spacing=100;
 time=8211;
 start_time=292128;
