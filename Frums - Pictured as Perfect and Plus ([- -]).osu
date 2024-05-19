@@ -3,7 +3,7 @@ osu file format v14
 [General]
 AudioFilename: audio.mp3
 AudioLeadIn: 0
-PreviewTime: 354655
+PreviewTime: 196759
 Countdown: 0
 SampleSet: Soft
 StackLeniency: 0.7
@@ -40,6 +40,8 @@ SliderTickRate:2
 [Events]
 //Background and Video events
 //Break Periods
+2,243434,250626
+2,292328,299889
 //Storyboard Layer 0 (Background)
 //Storyboard Layer 1 (Fail)
 //Storyboard Layer 2 (Pass)
@@ -6190,8 +6192,8 @@ SliderTickRate:2
 256,64,302707,1,0,1:1:0:0:
 336,64,302760,1,0,1:1:0:0:
 256,128,302813,1,0,1:1:0:0:
-176,128,302865,1,0,1:1:0:0:
 256,192,302865,5,2,2:2:0:0:
+176,128,302865,1,0,1:1:0:0:
 256,192,305392,1,2,2:2:0:0:
 256,192,307918,1,2,2:2:0:0:
 256,192,308549,1,2,2:2:0:0:
