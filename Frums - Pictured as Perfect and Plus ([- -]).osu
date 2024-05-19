@@ -23,8 +23,8 @@ Title:Pictured as Perfect and Plus
 TitleUnicode:Pictured as Perfect and Plus
 Artist:Frums
 ArtistUnicode:Frums
-Creator:K 3 V R A L
-Version:|/[]!|) []|= /\/\`/$[-|_|= / !'|' \|//-\$...
+Creator:[- -]
+Version:
 Source:
 Tags:
 BeatmapID:0
@@ -40,6 +40,7 @@ SliderTickRate:2
 
 [Events]
 //Background and Video events
+0,0,"background.png",0,0
 //Break Periods
 //Storyboard Layer 0 (Background)
 //Storyboard Layer 1 (Fail)
