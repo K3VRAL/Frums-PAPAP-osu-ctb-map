@@ -3,7 +3,7 @@ osu file format v14
 [General]
 AudioFilename: audio.mp3
 AudioLeadIn: 0
-PreviewTime: 354655
+PreviewTime: 49602
 Countdown: 0
 SampleSet: Soft
 StackLeniency: 0.7
@@ -24,7 +24,7 @@ TitleUnicode:Pictured as Perfect and Plus
 Artist:Frums
 ArtistUnicode:Frums
 Creator:[- -]
-Version:
+Version:2
 Source:
 Tags:
 BeatmapID:0
