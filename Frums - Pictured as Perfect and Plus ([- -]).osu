@@ -39,6 +39,7 @@ SliderTickRate:2
 
 [Events]
 //Background and Video events
+0,0,"background.png",0,0
 //Break Periods
 2,243434,250626
 2,292328,299889
