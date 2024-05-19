@@ -1,9 +1,4 @@
-<<<<<<< HEAD
-<<<<<<< HEAD
 Part 0: Change version v14 to v8
-=======
 Part 6: Section 3 needs to be a Heart.
->>>>>>> 02_21_392-02_31_286
-=======
 Part 7: Use Palpable Juice Stream Object as the foundation.
->>>>>>> 02_31_286-03_14_233
+Part 8: Use Tiny Juice Stream as the foundation. Achieve this with an empty timing point. Tiny Juice Streams are used to move the player, where the Fruit always stays in place.
