@@ -1,0 +1,115 @@
+#!/bin/bash
+map="Frums - Pictured as Perfect and Plus (K 3 V R A L).osu";
+dist=4;
+lc=$(($(sed -n -e '/\[HitObjects\]/,$p' "$map" | tail -n +2 | wc -l) - 1));
+if [ "$lc" -lt "0" ]; then
+	lc=0;
+fi
+
+#w_spin_t=(261892 261971 262076 262155 262260 262339);
+w_spin_t=(300000);
+w_spin="";
+for i in ${w_spin_t[@]}; do
+        w_spin="$w_spin -w $i:1";
+done
+
+seq_part=1;
+for k in $(seq 0 $seq_part); do
+        if [ "$k" -eq "0" ]; then
+		# Part 1 & 2
+		bnpd_l="";
+		bnpd_r="";
+		seq_end=1;
+		for j in $(seq 0 $seq_end); do
+			start_time=$((262444 + (2527 * $j)));
+			dir=$((-64 * (1 + $j)));
+			floor=$((64 * $j));
+			ceiling=$((512 - (128 + $floor)));
+			repeat=$(((12 / ($j + 1)) - 1));
+			x_axis=192;
+
+			for i in $(seq 0 $repeat); do
+				x_left=$x_axis;
+				x_right=$(($x_left + 128));
+				time_s=$(($start_time + ($i * 211)));
+				time_e=$(($time_s + 158));
+
+				temp_dir=$(($x_axis + $dir));
+				if [ "$temp_dir" -lt "$floor" ] || [ "$temp_dir" -gt "$ceiling" ]; then
+					dir=$((-1 * $dir));
+				fi
+				x_axis=$(($x_axis + $dir));
+
+				echo "$k/$seq_part | $j/$seq_end | $i/$repeat | $time_s , $time_e | $x_left , $x_right";
+
+				bnpd_l="$bnpd_l|$x_left:$time_s|$x_left:$time_e";
+				bnpd_r="$x_right:$time_e|$x_right:$time_s|$bnpd_r";
+			done
+		done
+
+		bnpd_l=$(echo "$bnpd_l" | tail -c +2);
+		bnpd_r=$(echo "$bnpd_r" | head -c -2);
+
+		lc_new=$(wc -l < "$map");
+
+		bnprdctr -b "$map" -o /tmp/file.osu -s "$bnpd_l|$bnpd_r" $w_spin -d "$dist" -u "$lc" \
+		&& cat /tmp/file.osu >> "$map";
+
+		lc=$(($(wc -l < "$map") - $lc_new + $lc));
+	elif [ "$k" -eq "1" ]; then
+		# Part 3 
+
+		# Triangle
+		bnpd_t="";
+		seq_i=2;
+		for i in $(seq 0 $seq_i); do
+			x=$(printf "%.0f" "$(echo "343 - (274 * c ($i * 2 * ((4 * a (1)) / 3)))" | bc -l)");
+			time=$(printf "%.0f" "$(echo "266444 + (274 * s ($i * 2 * ((4 * a (1)) / 3)))" | bc -l)");
+
+			echo "$k/$seq_part | $i/$seq_i | $x , $time";
+			
+			if [ "$i" -eq "1" ]; then
+				bnpd_t="$bnpd_t|$x:$time|$((x + 32)):$time";
+			elif [ "$i" -eq "2" ]; then
+				bnpd_t="$bnpd_t|$((x + 32)):$time|$x:$time";
+			else
+				bnpd_t="$bnpd_t|$x:$time";
+			fi
+		done
+		bnpd_t=$(echo "$bnpd_t" | tail -c +2);
+
+		# Square
+		bnpd_s="";
+		seq_i=3;
+		for i in $(seq 0 $seq_i); do
+			x="$((105 + ((($i % 3 == 0) - ($i % 3 != 0)) * 105)))";
+			time="$((266681 + ((($i >= 2) - ($i < 2)) * 105)))";
+
+			echo "$k/$seq_part | $i/$seq_i | $x , $time";
+
+			bnpd_s="$bnpd_s|$x:$time";
+		done
+		bnpd_s=$(echo "$bnpd_s" | tail -c +2);
+
+		# Circle TODO Mathematically calculate a circle.
+		bnpd_c="";
+		seq_i=8;
+		for i in $(seq 0 $seq_i); do
+			x=$(printf "%.0f" "$(echo "sqrt((48^2) - (($i - 336)^2))" | bc -l)");
+			time=$(printf "%.0f" "$(echo "sqrt((48^2) - (($i - 266813)^2))" | bc -l)");
+
+			echo "$k/$seq_part | $i/$seq_i | $x , $time";
+
+			bnpd_c="$bnpd_c|$x:$time";
+		done
+		bnpd_c=$(echo "$bnpd_c" | tail -c +2);
+
+		lc_new=$(wc -l < "$map");
+
+		bnprdctr -b "$map" -o /tmp/file.osu -s $bnpd_t -s $bnpd_s -s $bnpd_c $w_spin -d "$dist" -u "$lc" \
+		&& cat /tmp/file.osu >> "$map";
+
+		lc=$(($(wc -l < "$map") - $lc_new + $lc));
+
+	fi
+done
